@@ -506,6 +506,12 @@ class MatMul4Bit(torch.autograd.Function):
 
         # 1. Dequantize
         # 2. MatmulnN
+        # device = A.device  # Choose a target device, such as A's device
+        # B = B.to(device)
+        # bias = bias.to(device) if bias is not None else None
+        # quant_state = quant_state.to(device)  # if quant_state is a tensor
+
+        print(514, 'bb', A.device, B.device, quant_state.device, bias.device)
         output = torch.nn.functional.linear(A, F.dequantize_4bit(B, quant_state).to(A.dtype).t(), bias)
 
         # 3. Save state
